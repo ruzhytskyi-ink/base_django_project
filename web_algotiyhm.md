@@ -1,0 +1,125 @@
+I. Preparing to launch a project
+
+Write specificatin of aplication: (bussiness plan)
+    a) Goals of project
+    b) Functionality
+    c) Appearance (зовнішній вигляд)
+    d) user interface
+
+_______________________________________________________________________________________________________________________
+
+Our specification:
+    1. app_name: Learning Log
+    2. functionality: user can keep a log of interestd topics and create entires (записи) while learning every topic
+    3. Homepage include:
+        a. Description of the site
+        b. Invites user to Sign in or Log in
+        c. Once log in, user will be able to:
+            i.create new topics
+            ii. add new entires
+            iii. read and edit current entires
+
+_______________________________________________________________________________________________________________________
+
+II. Algorithm of creating web-app:
+
+1. Creating of virtual environment
+    a) Create directory of app
+    b) navigate to this directory in terminal mode and use next command:
+
+python -m venv venv (name of virtual env)
+
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser (for Windows to access venv mode)
+
+venv/Scripts/activate (deactivate - to leave virtual env)
+
+2. Choose venv python enterpreter in your code editor (VS code):
+    i. Ctrl+Shift+P (або Cmd+Shift+P на Mac), 
+    ii. enter Python: Select Interpreter 
+    iii. choose enterpreter that is located in your project venv (наприклад, ./.venv/Scripts/python.exe)
+
+3. Installation of Django 
+
+pip install django
+
+4. Creating the project (main files: manage.py, settings.py, urls.py)
+
+django-admin startproject learning_log .
+
+5. Creating of Datebase
+
+python manage.py migrate
+
+6. Check development server:
+
+python manage.py runserver
+
+7. Creating app in your project (models.py, admin.py, views.py)
+
+python manage.py startapp learning_logs
+
+8. Start Work with app
+    1. Definition of models 'Topic' (look at: ...app/models.py)
+        a. Full list of django model filds you can see here: https://docs.djangoproject.com/en/6.0/ref/models/fields/
+    2. Model activating (project_dir/settings.py -> add app_name like 'learning_logs' to INTALLED_APPS )
+    3. Every time when you change data which "app" manages,
+       you need to update the datebase, so make next steps:
+        i. change ... app/'models.py'
+        ii. python manage.py makemigrations app_name
+        iii. python manage.py migrate
+
+9. Admin site
+    1. Creating of superuser
+        python manage.py createsuperuser
+    2. Import and Register model at admin panel (look at ...app/admin.py)
+    3. Run server and Add topics by admin panel at http://localhost:8000/admin/
+    
+10. Update model.py to add new model for entering information in your topics using 'many-to-one' relationship
+    1. Definition of new model 'Entry' (look at: ...app/models.py)
+    2. Update datebase with makemigrations and migrate
+    3. Import and Register model 'Entry' at admin panel (look at ...app/admin.py)
+
+11. Creating Homepage (It include: 1.defining URLs, 2. writing views 3. writing templates )
+    1. URL comparison (edit project/urls.py and then app/urls.py)
+    2. Write Views (func with arguments (request obj, template) + can be data procesing)
+    3. Write template:
+        a. make dir in app_dir(like learning_logs)/templates/the same name of app(like learning_logs)/index.html
+
+12. Creating the 'base.html' template from which all templates in this project will inherit (Parent template) 
+
+13. Creating of other pages (in ours case we'll create 2 pages for output data:
+    1. list of topics (http://.../topics)
+        a. Create scheme of URLs (usual)
+        b. Write func of view (description look at views.py)
+        c. Create template  - html-page 'topics.html' and add it's path to base.html  
+    2. List of entires on a specific topic (http://.../topics/topic_id/)
+    (representation of Topic-name and list of entires of current topic)
+        a. Create scheme of URLs with ID-atribute 
+        b. Write view func which receive additional id-atribute (description look at views.py)
+        c. Create template - html-page 'topic.html' and add it's path to topics.html 
+        (Here we can see Django MVT design pattern)
+            і. | - Django filter func for Django-templates
+            ii. entry.date_added |date:'M d, Y H:i' - formats the date directly within the template
+            iii. entry.text|linebreaks - converts \n to HTML (<p>, <br>)
+_______________________________________________________________________________________________________________________
+_Template Note: 
+Між topic.id (in template topics.html) і topic_id (in logic views.py) існує не очевидна, але важлива відмінність. 
+- Вираз topic.id перевіряє тему та отримує значення відповідного ідентифікатора. 
+- Змінна topic_id містить посилання на цей ідентифікатор у коді. 
+Якщо ви зіткнетеся з помилками під час роботи з ідентифікаторами, переконайтеся, що ці вирази використовуються правильно 
+
+_______________________________________________________________________________________________________________________
+_Design patterns note: 
+Main goal of this pattern is to separate the business logic (what the programme does in views.py) from 
+the interface (what the user sees in templates), which simplifies the scaling, testing and maintenance of projects
+
+        Key differences by design patterns
+Characteristic      |    MVC     |   MVT (Django)   |
+Logic               | Controller |      View        |
+Interface           |    View    |     Template     |
+Data                |    Model   |      Model       |
+_______________________________________________________________________________________________________________________
+
+III. User accounts
+
+1. 
