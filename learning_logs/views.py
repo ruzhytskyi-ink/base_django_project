@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Topic
+from .forms import TopicForm
 
 def index(request):
     """Homepage of Learning Logs"""
@@ -19,3 +20,19 @@ def topic(request, topic_id):
                                                       # sort with symbol '-' means reversed sort to display last entries in top    
     context = {'topic': topic, 'entries': entries}
     return render(request, 'learning_logs/topic.html', context)
+
+def new_topic(request):
+    """Set a new topic"""
+    if request.method != 'POST':
+        # Data not sent; create empty topic
+        form = TopicForm()
+    else:
+        # Data sent POST; process data
+        form = TopicForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('learning_logs:topics')
+    
+    # display empty or invalid form
+    context = {'form': form}
+    return render(request, 'learning_logs/new_topic.html', context)

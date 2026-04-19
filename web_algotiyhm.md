@@ -122,4 +122,12 @@ ________________________________________________________________________________
 
 III. User accounts
 
-1. 
+1. Editing data (Adding Pages for users to Create Topics) 
+    i. The same as in 11 and 13 points, but with new modul - 'forms.py' 
+        -add ModelForm object to provide functionality of forms, 
+        -make url comparison, 
+        -view func, 
+        -create template, 
+        -add link to new_topic at topics template)
+    ii. Adding Pages for users to Create topic entires and edit them:
+        - add class EntryForm p.428

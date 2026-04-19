@@ -19,4 +19,7 @@ urlpatterns = [
     # Page with detailed info on a specific topic
     path('topics/<int:topic_id>/', views.topic, name='topic'), #id saves in argument: topic_id
     # <int:topic_id> - as pattern Django like instruction to parce URL
+
+    # Adding new topic page
+    path('new_topic', views.new_topic, name='new_topic'),
     ]
