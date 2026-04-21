@@ -101,6 +101,7 @@ python manage.py startapp learning_logs
             і. | - Django filter func for Django-templates
             ii. entry.date_added |date:'M d, Y H:i' - formats the date directly within the template
             iii. entry.text|linebreaks - converts \n to HTML (<p>, <br>)
+
 _______________________________________________________________________________________________________________________
 _Template Note: 
 Між topic.id (in template topics.html) і topic_id (in logic views.py) існує не очевидна, але важлива відмінність. 
@@ -120,14 +121,29 @@ Interface           |    View    |     Template     |
 Data                |    Model   |      Model       |
 _______________________________________________________________________________________________________________________
 
+
 III. User accounts
 
-1. Editing data (Adding Pages for users to Create Topics) 
-    i. The same as in 11 and 13 points, but with new modul - 'forms.py' 
-        -add ModelForm object to provide functionality of forms, 
+14. Editing data (The same as in 11 and 13 points, but with new modul - 'forms.py') 
+    i. Adding Page for users to _Create Topics_
+        - create 'forms.py' in directory with models.py:
+            > import models and define class TopicForm as ModelForm object to provide functionality of forms, 
         -make url comparison, 
-        -view func, 
+        -view func (process 2 situations:
+            >  original queries for the new_topic page (empty form)
+            >  process data sent on form and redirect user back
         -create template, 
         -add link to new_topic at topics template)
-    ii. Adding Pages for users to Create topic entires and edit them:
-        - add class EntryForm p.428
+    ii. Adding Page for users to _Create topic entires_:
+        - update forms.py and add class EntryForm which is more specific
+        - update url with specification (the entire must be linked to a specific topic)
+        - update view with func new_entire with specification
+        - create template and add link on it to topic.html
+    iii. Adding Page for users for _Editing enteries_:
+        - update url
+        - update view with new func
+        - create template and add it's link to topic.html
+
+_______________________________________________________________________________________________________________________
+Note: at this level we can use functionality of web-site but can't save changes.
+_______________________________________________________________________________________________________________________

@@ -22,4 +22,10 @@ urlpatterns = [
 
     # Adding new topic page
     path('new_topic', views.new_topic, name='new_topic'),
+
+    # Adding new entry page
+    path('new_entry/<int:topic_id>/', views.new_entry, name='new_entry'),
+
+    # Adding editing entry page
+    path('edit_entry/<int:entry_id>/', views.edit_entry, name='edit_entry'),
     ]

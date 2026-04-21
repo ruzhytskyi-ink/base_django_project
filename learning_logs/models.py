@@ -10,7 +10,7 @@ class Topic(models.Model):
         return self.text
     
 class Entry(models.Model):
-    """Info user revied on the topic"""
+    """Info user reviewed on the topic"""
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE) # atribute 'topic' use key instace to conect models
                                                                # argument 'on_delete=...CASCADE' use to delete all entires related to this topic
     text = models.TextField()
