@@ -147,3 +147,30 @@ III. User accounts
 _______________________________________________________________________________________________________________________
 Note: at this level we can use functionality of web-site but can't save changes.
 _______________________________________________________________________________________________________________________
+
+15. Creating of user accounts (Registration and authorization system)
+
+    1. Creating new app 'users'
+        python manage.py startapp users
+    2. Add users app to 'INSTALLED_APPS' in project settings
+    3. Including users URLs into root file urls.py
+    4. Loggining page:
+        a. creating urls.py in new app and update it with default django authentication URLs (which include 'login' 
+        and 'logout' named schemas)
+        b. Creating 'login' template (login.html) which may be located in dir 'registration' which must be 
+        in dir 'learning_log/users/templates/registration/'  (django looking for it by  default auth)
+        c. Creating log in link in base.html and test is it work
+        d. Adding log out link in base.html
+        e. Creating of Logout confirmation page with creatinh of template 'logged_out.html' (notification of logging out)
+    5. Registartion page:
+        a. Update users urls.py with adding of registration path and our new view of this page
+        b. Update users views.py with creating a new func register()
+        c. Creating 'register.html' template
+        d. Adiing registration link to base.html
+
+_______________________________________________________________________________________________________________________
+NOTE: This registration system allows any user to create as many Learning Log accounts as they wish. 
+!!! However, some systems require the user to confirm their application by sending an email, to which the user must reply. With this approach, the system will create fewer spam accounts than the simplest system in our example. 
+_______________________________________________________________________________________________________________________
+
+16. Editing data II (work with data which belong sollely to user)
