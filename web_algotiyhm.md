@@ -160,8 +160,13 @@ ________________________________________________________________________________
         b. Creating 'login' template (login.html) which may be located in dir 'registration' which must be 
         in dir 'learning_log/users/templates/registration/'  (django looking for it by  default auth)
         c. Creating log in link in base.html and test is it work
-        d. Adding log out link in base.html
+    5. Adding log out form in base.html
         e. Creating of Logout confirmation page with creatinh of template 'logged_out.html' (notification of logging out)
+_______________________________________________________________________________________________________________________
+Note: Logging out may not work becouse app 'users' can be located under default admin app of django 
+in INSTALLED_APPS in settings
+_______________________________________________________________________________________________________________________
+
     5. Registartion page:
         a. Update users urls.py with adding of registration path and our new view of this page
         b. Update users views.py with creating a new func register()
@@ -174,3 +179,53 @@ NOTE: This registration system allows any user to create as many Learning Log ac
 _______________________________________________________________________________________________________________________
 
 16. Editing data II (work with data which belong sollely to user)
+    1. Restricting access using decorator '@login_required'
+        a. Import decorator func 'login_required' into learning_logs views and write decorator before func 'topics'
+        b. Update settings with link-path (LOGIN_URL) for redirection
+        c. Restriction access in learning_logs (need to decide which pages will have unlimitted access and which - NO)
+            i. We will allow unlimited access for home, registration and logging in pages 
+            and restrict access for all other pages with decorator 'login_required' in views
+    2. Linking data to specific users (establish a connection only with the data at the top level of the hierarchy; 
+                                        the lower-level data will follow automatically.)
+        a. Update Topic model (add the foreign key relationship to the user)
+        b. Identification of existing users
+            i.  python manage.py shell
+                from django.contrib.auth.models import User     
+                User.objects.all()                      -> look at all users
+                for user in User.objects.all():     
+                    print(user.username, user.id)       -> to use id for connecting of topics with user
+        c. Make migration of database
+            i. python manage.py makemigrations learning_logs
+            ii. Python propose to connect the Topic model(all existing topics) to a specific owner 
+                                                        (in our case we choose __1__ for admin))
+            iii. write 1 (admins id) or another id of user
+            iiii. Make migration 
+                    python manage.py migrate
+            iiiii. Check with shell to ensure that the migration went as planned:
+                >>> from learning_logs.models import Topic      
+                >>> for topic in Topic.objects.all():
+                        print(topic, topic.owner)       -> check all topic for owners
+
+                        """if error try to reoper the shell"""
+_______________________________________________________________________________________________________________________
+NOTE: It is also possible to clear DB and rebuilt new DB with:
+python manage.py flush
+_______________________________________________________________________________________________________________________
+
+17. Restricting (обмеження) access to topics (user sea only his topics)
+    1. Update func Topics() in learning_views/views with '.filter(owner=request.user)'
+    (it check if topic owner user match with responded curreent user)
+
+18. User topic protection
+    - 1. If you try to log in as not as admin go by link  http://localhost:8000/topics/1/ (you can see topic of another users)
+    1. to resolve this problem we will provide checking before receiving data in func topic()
+        a. Update func topic() and import Http404 (If the topic does not belong to the current user, 
+                                                    an Http404 exception is thrown)
+19. Protecting the edit_entry page
+    1. Provide the same with func edit_entry
+
+20. Linking new topics to the current user
+    0. At present, the page for adding new topics is not fully functional because 
+       it does not link new topics to a specific user.
+    1. Resolve this problem with updating func 'new_topic()' in views.py:
+        i. Gain access to current user data through request object 

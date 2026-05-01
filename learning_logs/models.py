@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Topic(models.Model):
     """Topic the user is studying"""
     text = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True) #set current date and time
+    owner = models.ForeignKey(User, on_delete=models.CASCADE) 
 
     def __str__(self):
         """Return string representation of the model"""

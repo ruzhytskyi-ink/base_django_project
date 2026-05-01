@@ -6,7 +6,7 @@ def register(request):
     """Register a new user"""
     if request.method != 'POST':
         # display empty registration form
-        user = UserCreationForm()
+        form = UserCreationForm()
     else:
         form = UserCreationForm(data=request.POST)
 
@@ -18,4 +18,4 @@ def register(request):
 
     # display empty or invalid form
     context = {'form': form}
-    return render(request, 'users/register.html', context)
+    return render(request, 'registration/register.html', context) #path of template without 'users/templates'

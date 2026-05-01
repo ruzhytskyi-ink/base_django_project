@@ -21,7 +21,7 @@ urlpatterns = [
     # <int:topic_id> - as pattern Django like instruction to parce URL
 
     # Adding new topic page
-    path('new_topic', views.new_topic, name='new_topic'),
+    path('new_topic/', views.new_topic, name='new_topic'),
 
     # Adding new entry page
     path('new_entry/<int:topic_id>/', views.new_entry, name='new_entry'),
